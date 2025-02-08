@@ -95,12 +95,12 @@ def register():
 
 
 
-@app.route("/logout")
-def logout():
+@app.route("/log out")
+def log out():
     
     session.clear()
     flash("Successfully logged out.", "success")
-    return redirect(url_for('login'))
+    return redirect("/")
 
 
 if __name__ == "__main__":
