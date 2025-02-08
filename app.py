@@ -20,7 +20,7 @@ def index():
 
 @app.route("/mainpage")
 def mainpage():
-    return render_template("main page.html") 
+    return render_template("mainpage.html") 
 
 @app.route("/top_pics")
 def top_pics():
