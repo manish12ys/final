@@ -26,9 +26,9 @@ def mainpage():
 def top_pics():
     return render_template("top_pics.html")
 
-@app.route("/actors")
-def actors():
-    return render_template("actors.html")
+@app.route("/actor")
+def actor():
+    return render_template("actor.html")
 
 @app.route("/san")
 def san():
