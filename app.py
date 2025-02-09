@@ -42,7 +42,7 @@ def dhaku():
 def game():
     return render_template("game.html")
 
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=["GET", "POST"])
 def login():
     username = request.form['uname']
     password = request.form['passw']
