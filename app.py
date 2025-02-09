@@ -4,7 +4,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:manish@localhost/manish'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'your_secret_key_here'
 db = SQLAlchemy(app)
 
@@ -41,41 +42,52 @@ def dhaku():
 @app.route("/game")
 def game():
     return render_template("game.html")
-
-@app.route("/login", methods=["GET", "POST"])
+@app.route('/login', methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        uname = request.form.get("uname")
-        passw = request.form.get("passw")
+        username = request.form.get('uname')
+        password = request.form.get('passw')
 
-       
-        login_user = User.query.filter_by(username=uname).first()
+        if not username or not password:
+            flash("Username and password are required!", "danger")
+            return redirect(url_for("login"))
 
-        if login_user and check_password_hash(login_user.password, passw):
-        
-            session["user_id"] = login_user.id
-            session["username"] = login_user.username
+      
+        user = User.query.filter_by(username=username).first()
+
+        if user and check_password_hash(user.password, password):
+            session['user_id'] = user.id  
             flash("Login successful!", "success")
-            return redirect(url_for("mainpage"))
-        else:
-            flash("Invalid username or password!", "danger")
+            return redirect(url_for('mainpage'))  
+
+        flash("Invalid username or password!", "danger")
+        return redirect(url_for("login"))
 
     return render_template("login.html")
+
+
+
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
+      
         uname = request.form.get('uname')
         mail = request.form.get('mail')
         passw = request.form.get('passw')
 
        
+        if not uname or not mail or not passw:
+            flash("All fields are required!", "danger")
+            return redirect(url_for("register"))
+
+        
         existing_user = User.query.filter((User.username == uname) | (User.email == mail)).first()
         if existing_user:
             flash("Username or email already exists!", "danger")
             return redirect(url_for("register"))
 
-      
+        
         hashed_password = generate_password_hash(passw, method="pbkdf2:sha256")
         new_user = User(username=uname, email=mail, password=hashed_password)
 
@@ -92,14 +104,12 @@ def register():
 
     return render_template("register.html")
 
-
-
-@app.route("/log out")
-def log out():
+@app.route("/logout")
+def logout():
     
     session.clear()
     flash("Successfully logged out.", "success")
-    return redirect("/")
+    return redirect(url_for('login'))
 
 
 if __name__ == "__main__":
