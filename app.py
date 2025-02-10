@@ -1,20 +1,24 @@
 from flask import Flask, render_template, flash, redirect, url_for, request, session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime
 
 app = Flask(__name__)
+
+# Database Configuration
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:manish@localhost/yepuri'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'your_secret_key_here'
+
 db = SQLAlchemy(app)
 
-
+# User Model
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False) 
+
+# Routes
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -42,6 +46,8 @@ def dhaku():
 @app.route("/game")
 def game():
     return render_template("game.html")
+
+# Login Route
 @app.route('/login', methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -52,7 +58,6 @@ def login():
             flash("Username and password are required!", "danger")
             return redirect(url_for("login"))
 
-      
         user = User.query.filter_by(username=username).first()
 
         if user and check_password_hash(user.password, password):
@@ -65,29 +70,23 @@ def login():
 
     return render_template("login.html")
 
-
-
-
+# Registration Route
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
-      
         uname = request.form.get('uname')
         mail = request.form.get('mail')
         passw = request.form.get('passw')
 
-       
         if not uname or not mail or not passw:
             flash("All fields are required!", "danger")
             return redirect(url_for("register"))
 
-        
         existing_user = User.query.filter((User.username == uname) | (User.email == mail)).first()
         if existing_user:
             flash("Username or email already exists!", "danger")
             return redirect(url_for("register"))
 
-        
         hashed_password = generate_password_hash(passw, method="pbkdf2:sha256")
         new_user = User(username=uname, email=mail, password=hashed_password)
 
@@ -104,14 +103,14 @@ def register():
 
     return render_template("register.html")
 
+# Logout Route
 @app.route("/logout")
 def logout():
-    
     session.clear()
     flash("Successfully logged out.", "success")
     return redirect(url_for('login'))
 
-
+# Ensure database tables are created before running
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
