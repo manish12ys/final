@@ -1,6 +1,7 @@
 from flask import Flask, render_template, flash, redirect, url_for, request, session
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash,gunicorn yourfilename:app
+
 
 app = Flask(__name__)
 
