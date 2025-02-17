@@ -62,9 +62,9 @@
         }
         .movie-poster{
             width: 500px;
-            height: auto; /* Maintains aspect ratio */
+            height: auto; 
         }
-           /* Styling for Navigation Bar */
+           
            .nav-bar {
             display: flex;
             justify-content: space-between;
@@ -99,7 +99,7 @@
             background-color: orange;
         }
 
-        /* Dropdown Menu */
+        
         .dropdown {
             position: relative;
             display: inline-block;
@@ -137,7 +137,7 @@
             background-color: #ddd;
         }
 
-        /* Show dropdown on hover */
+      
         .dropdown:hover .dropdown-content {
             display: block;
         }
@@ -146,7 +146,7 @@
             font-weight: bold;
             color: orange;
         }
-        /* General Styling */
+       
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
@@ -154,7 +154,7 @@ body {
     padding: 20px;
 }
 
-/* Movie Card Styling */
+
 .movie-card {
     background: white;
     padding: 15px;
@@ -170,11 +170,11 @@ body {
     border-radius: 10px;
 }
 
-/* Video Styling */
+
 .video-container {
     position: relative;
     width: 100%;
-    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    padding-bottom: 56.25%; 
     height: 0;
     overflow: hidden;
     border-radius: 10px;
@@ -191,7 +191,7 @@ body {
     border: none;
 }
 
-/* Review Link Styling */
+
 .review-link {
     display: inline-bloc;
 }
@@ -201,7 +201,7 @@ body {
 }
 
 #book-now-btn {
-    background-color: #f06292; /* Pinkish Red */
+    background-color: #f06292; 
     color: white;
     font-size: 18px;
     padding: 12px 24px;
@@ -212,12 +212,12 @@ body {
 }
 
 #book-now-btn:hover {
-    background-color: #d81b60; /* Darker Pinkish Red */
-    transform: scale(1.1); /* Slightly enlarge on hover */
+    background-color: #d81b60; 
+    transform: scale(1.1);
 }
 
 #book-now-btn:active {
-    transform: scale(1); /* Return to normal size when clicked */
+    transform: scale(1); 
 }
 
 
@@ -286,14 +286,14 @@ body {
     <p class="rating"><strong>Final Verdict:</strong> A fun-filled family entertainer that's worth a watch!</p>
     
 
-    <!-- Book Now Button -->
+    
     <div class="book-now">
         <h2>Book Tickets Now</h2>
         <button id="book-now-btn">Book Now</button>
     </div>
 
     <script>
-        // Redirect to BookMyShow when the "Book Now" button is clicked
+   
         document.getElementById('book-now-btn').addEventListener('click', function() {
             window.location.href = 'https://in.bookmyshow.com/hyderabad/movies/sankranthiki-vasthunam/ET00418119';
         });
