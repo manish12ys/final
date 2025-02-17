@@ -5,21 +5,21 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
-# Database Configuration
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:manish@localhost/yepuri'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'your_secret_key_here'
 
 db = SQLAlchemy(app)
 
-# User Model
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False) 
 
-# Routes
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -48,7 +48,7 @@ def dhaku():
 def game():
     return render_template("game.html")
 
-# Login Route
+
 @app.route('/login', methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -71,7 +71,6 @@ def login():
 
     return render_template("login.html")
 
-# Registration Route
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
@@ -104,14 +103,13 @@ def register():
 
     return render_template("register.html")
 
-# Logout Route
 @app.route("/logout")
 def logout():
     session.clear()
     flash("Successfully logged out.", "success")
-    return redirect(url_for('login'))
+    return redirect(url_for('/'))
 
-# Ensure database tables are created before running
+
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
